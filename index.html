@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --peach: #ff9b85;
+            --terracotta: #d4725c;
+            --sage: #a8b5a0;
+            --cream: #fef7f0;
+            --navy: #2a3d45;
+            --warm-white: #fff9f4;
+            --coral: #ff7b63;
+            --dusty-blue: #8fa5b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--navy);
+            overflow-x: hidden;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 155, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(168, 181, 160, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(143, 165, 176, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating elements animation */
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 16px;
+            opacity: 0;
+            animation: float-organic 12s infinite ease-in-out;
+            filter: blur(0.5px);
+        }
+
+        @keyframes float-organic {
+            0% {
+                transform: translate(0, 100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            50% {
+                opacity: 0.25;
+                transform: translate(30px, 50vh) rotate(180deg);
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translate(-20px, -100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.8rem, 9vw, 6.5rem);
+            font-weight: 400;
+            color: var(--terracotta);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(1.15rem, 3vw, 1.6rem);
+            color: var(--navy);
+            max-width: 550px;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+            font-weight: 400;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: float-slow 3s ease-in-out infinite;
+            color: var(--peach);
+            font-size: 1.8rem;
+            opacity: 0.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 0.85;
+            }
+        }
+
+        @keyframes float-slow {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Content sections */
+        .section {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-card {
+            background: var(--warm-white);
+            border-radius: 0;
+            padding: 3.5rem 2.5rem;
+            max-width: 750px;
+            box-shadow: 
+                0 1px 3px rgba(42, 61, 69, 0.06),
+                0 8px 24px rgba(42, 61, 69, 0.08);
+            border-left: 4px solid var(--peach);
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: 0;
+            width: 120px;
+            height: 4px;
+            background: var(--sage);
+        }
+
+        .content-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-card h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            color: var(--terracotta);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .content-card p {
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            line-height: 1.8;
+            color: var(--navy);
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* I Love Pragya Section */
+        .pragya-sign {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 12px 32px rgba(42, 61, 69, 0.15);
+            margin: 2rem auto;
+        }
+
+        /* Photo gallery */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            width: 100%;
+            max-width: 950px;
+            margin: 2rem auto;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 4/5;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 
+                0 2px 8px rgba(42, 61, 69, 0.08),
+                0 12px 32px rgba(42, 61, 69, 0.12);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .photo-item:nth-child(2) {
+            aspect-ratio: 1;
+        }
+
+        .photo-item:nth-child(3) {
+            aspect-ratio: 3/4;
+        }
+
+        .photo-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: brightness(0.98) contrast(1.02);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 5 Reasons Section */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .reason-tile {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 2px;
+            border-left: 4px solid var(--peach);
+            box-shadow: 0 4px 12px rgba(42, 61, 69, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .reason-tile.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reason-tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(42, 61, 69, 0.15);
+            border-left-color: var(--terracotta);
+        }
+
+        .reason-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--peach);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .reason-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            color: var(--navy);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Final question */
+        .proposal {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .proposal h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            color: var(--navy);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .answer-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1.1rem 3.5rem;
+            font-size: 1.1rem;
+            font-family: 'Outfit', sans-serif;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-yes {
+            background: var(--terracotta);
+            color: white;
+            box-shadow: 
+                0 4px 12px rgba(212, 114, 92, 0.3),
+                0 12px 32px rgba(212, 114, 92, 0.2);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 16px rgba(212, 114, 92, 0.35),
+                0 16px 40px rgba(212, 114, 92, 0.25);
+        }
+
+        .btn-no {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-no.floating {
+            position: fixed;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+        }
+
+        /* Celebration overlay */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--terracotta) 0%, var(--coral) 100%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .celebration.active {
+            display: flex;
+        }
+
+        .celebration-content {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .celebration-content h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: -0.02em;
+        }
+
+        .celebration-content p {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+            font-weight: 300;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--sage);
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+            border-radius: 2px;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+            }
+
+            .answer-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .content-card {
+                padding: 2.5rem 1.8rem;
+            }
+
+            .reasons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pragya-sign {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="heart-container" id="hearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Hey You 👋</h1>
+        <p>6 months & 24 days of us being adorable together...</p>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- About Her Section -->
+    <section class="section">
+        <div class="content-card">
+            <h2>Listen, I Gotta Tell You Something</h2>
+            <p>So like, remember when we first started talking? I was just trying to play it cool, but honestly you had me hooked from day one. The way you randomly start laughing at your own thoughts, how you get weirdly excited about the most random stuff - it's all so YOU and I love it.</p>
+            <p>These past 6 months and 24 days (yes I'm counting, fight me) have been honestly the best. You make even boring stuff fun. Like who knew grocery shopping could be an adventure? Or that I'd actually enjoy just sitting around doing nothing as long as you're there?</p>
+            <p>You're literally the first person I want to text when something happens - good, bad, or just plain weird. And somehow you always know exactly what to say. Or sometimes you just send a meme and that works too. 😂</p>
+        </div>
+    </section>
+
+    <!-- Special I Love Pragya Section -->
+    <section class="section">
+        <div class="content-card" style="text-align: center;">
+            <h2>Just Saying It Out Loud</h2>
+            <img src="images/pragya_sign.png" alt="I LOVE PRAGYA" class="pragya-sign">
+            <p style="margin-top: 2rem; font-style: italic;">Because sometimes you just gotta make it official with a sign 📝💕</p>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="section">
+        <div class="content-card">
+            <h2>Look at Us Being Cute</h2>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="images/photo1.jpg" alt="Us being adorable">
+                </div>
+                <div class="photo-item">
+                    <img src="images/photo2.jpg" alt="That perfect moment">
+                </div>
+                <div class="photo-item">
+                    <img src="images/photo3.jpg" alt="Just vibing together">
+                </div>
+                <div class="photo-item">
+                    <img src="images/photo4.jpg" alt="My favorite memory">
+                </div>
+                <div class="photo-item">
+                    <img src="images/photo5.jpg" alt="Us being us">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 Reasons Section -->
+    <section class="section">
+        <div class="content-card">
+            <h2>5 Solid Reasons to Say Yes</h2>
+            <p style="font-family: 'Outfit', sans-serif; opacity: 0.8; margin-bottom: 1rem;">Just in case you needed some convincing... 😏</p>
+            <div class="reasons-grid">
+                <div class="reason-tile">
+                    <div class="reason-number">1</div>
+                    <div class="reason-text">Bohot saari pyaari 🥰</div>
+                </div>
+                <div class="reason-tile">
+                    <div class="reason-number">2</div>
+                    <div class="reason-text">Endless cuddles 🤗</div>
+                </div>
+                <div class="reason-tile">
+                    <div class="reason-number">3</div>
+                    <div class="reason-text">Always there to listen to whatever you want to rant about 👂</div>
+                </div>
+                <div class="reason-tile">
+                    <div class="reason-number">4</div>
+                    <div class="reason-text">Boobies 🍒</div>
+                </div>
+                <div class="reason-tile">
+                    <div class="reason-number">5</div>
+                    <div class="reason-text">Tumhe meri kasam 🙏</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Section -->
+    <section class="section">
+        <div class="content-card">
+            <h2>Real Talk Though...</h2>
+            <p>Okay so like, I know I joke around a lot, but fr fr - you're actually amazing. These past 6 months and 24 days have been wild in the best way possible.</p>
+            <p>You get my weird humor. You don't judge me when I'm being an absolute mess. You actually WANT to hear about my day even when nothing interesting happened. And somehow you make everything better just by being around.</p>
+            <p>I never thought I'd be the person making cheesy websites (and here we are lol), but you bring out this side of me that actually wants to do cute stuff. And honestly? I'm not mad about it.</p>
+            <p>So yeah, this is me asking you to be my Valentine. Not because it's Valentine's week or whatever, but because I genuinely can't imagine doing this with anyone else. You're stuck with me now. 😤💕</p>
+        </div>
+    </section>
+
+    <!-- The Big Question -->
+    <section class="section proposal">
+        <div class="content-card">
+            <h2>Sooo... Here's the Thing</h2>
+            <p style="font-size: clamp(1.05rem, 2.5vw, 1.25rem); margin: 1.5rem 0; font-family: 'Outfit', sans-serif; color: var(--navy); opacity: 0.85; font-weight: 300; max-width: 600px; margin-left: auto; margin-right: auto;">
+                We've been together for 6 months and 24 days now (yes I counted, sue me). We've had our moments, made a ton of memories, probably sent each other a million memes... but I realized I never actually ASKED you the important question.
+            </p>
+            <p style="font-size: clamp(1.05rem, 2.5vw, 1.25rem); margin: 1.5rem 0; font-family: 'Outfit', sans-serif; color: var(--navy); opacity: 0.85; font-weight: 300; max-width: 600px; margin-left: auto; margin-right: auto;">
+                So on this Propose Day (yeah it's a thing apparently), let me make it official...
+            </p>
+            <p style="font-size: clamp(1.8rem, 5vw, 3rem); margin: 2.5rem 0; font-family: 'DM Serif Display', serif; color: var(--terracotta); font-weight: 400; letter-spacing: -0.01em;">
+                Will you be my Valentine?
+            </p>
+            <p style="font-size: clamp(0.95rem, 2vw, 1.1rem); margin: 1rem 0 2rem 0; font-family: 'Outfit', sans-serif; color: var(--navy); opacity: 0.7; font-weight: 400;">
+                (Not just today but like... every day? 👉👈)
+            </p>
+            <div class="answer-buttons">
+                <button class="btn btn-yes" onclick="sayYes()">Yes Obviously 💖</button>
+                <button class="btn btn-no" onmouseover="sayNo()" ontouchstart="sayNo()">Umm No...</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Celebration Overlay -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h1>YESSS! 🎉</h1>
+            <p>You just made me the happiest person ever!</p>
+            <p style="margin-top: 2rem; font-size: 1.4rem; font-weight: 300;">Here's to 6 months & 24 days down,</p>
+            <p style="margin-top: 0.5rem; font-size: 1.4rem; font-weight: 300;">and forever more to go! 💕</p>
+            <p style="margin-top: 2rem; font-size: 1.2rem; font-weight: 300; opacity: 0.9;">Happy Propose Day babe! 🥰</p>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.getElementById('hearts').appendChild(heart);
+        }
+
+        // Create multiple hearts
+        for (let i = 0; i < 15; i++) {
+            createHeart();
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-card, .photo-item, .reason-tile').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Stagger animation for reason tiles
+        document.querySelectorAll('.reason-tile').forEach((tile, index) => {
+            tile.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        // Answer functions
+        function sayYes() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.add('active');
+            
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ff9b85', '#a8b5a0', '#8fa5b0', '#d4725c', '#fef7f0'][Math.floor(Math.random() * 5)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    celebration.appendChild(confetti);
+                }, i * 30);
+            }
+        }
+
+        function sayNo() {
+            const noButton = document.querySelector('.btn-no');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+            
+            // Calculate random position within viewport
+            const randomX = Math.random() * (windowWidth - buttonWidth - 40) + 20;
+            const randomY = Math.random() * (windowHeight - buttonHeight - 40) + 20;
+            
+            // Add floating class and move to random position
+            noButton.classList.add('floating');
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+            
+            // Show a gentle message after a delay
+            setTimeout(() => {
+                const messages = [
+                    "The button got shy! 😊 Maybe the universe is trying to tell you something...",
+                    "Oops! It ran away to give you time to reconsider! 💕",
+                    "The button believes in us and refuses to be clicked! ✨",
+                    "Even the button knows we're meant to be! How about 'Yes' instead? 🌟",
+                    "Plot twist: The button is secretly rooting for us! 😄",
+                    "That button is playing hard to get... unlike my heart with you 💖"
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                
+                // Show message in a nicer way
+                const messageDiv = document.createElement('div');
+                messageDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 2rem 3rem;
+                    border-radius: 2px;
+                    box-shadow: 0 20px 60px rgba(42, 61, 69, 0.3);
+                    z-index: 10000;
+                    font-family: 'Outfit', sans-serif;
+                    font-size: 1.2rem;
+                    color: var(--navy);
+                    text-align: center;
+                    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    border-left: 4px solid var(--peach);
+                `;
+                messageDiv.textContent = randomMessage;
+                document.body.appendChild(messageDiv);
+                
+                setTimeout(() => {
+                    messageDiv.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => messageDiv.remove(), 300);
+                }, 2500);
+            }, 100);
+        }
+
+        // Smooth scrolling for scroll indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
